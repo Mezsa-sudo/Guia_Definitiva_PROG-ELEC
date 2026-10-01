@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ELECTRÓNICA // GUÍA_MAKER</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#050005;--red:#ff1f3d;--v:#a855f7;--y:#ffd60a;--text:#f3e8ea;--dim:#b8939a;--panel:rgba(8,0,8,.86)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:ui-monospace,Consolas,Menlo,monospace;line-height:1.55;font-size:.92rem}
+#m{position:fixed;inset:0;width:100%;height:100%;opacity:.38;z-index:0}
+.wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:18px 16px 50px}
+h1{margin:6px 0 2px;color:var(--red);font-size:clamp(1.4rem,5vw,2.3rem);text-shadow:0 0 16px var(--red);letter-spacing:.04em}
+.sub{color:var(--dim);margin:0 0 16px}
+nav{display:flex;gap:8px;flex-wrap:wrap;border-bottom:2px solid var(--red);padding-bottom:12px;margin-bottom:18px}
+nav button{font:inherit;background:var(--panel);color:var(--red);border:1px solid var(--red);border-radius:4px;padding:9px 14px;cursor:pointer;min-height:42px}
+nav button:hover,nav button.on{background:var(--red);color:#000;box-shadow:0 0 14px var(--red)}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--y);outline-offset:2px}
+h2{font-size:1.15rem;margin:22px 0 10px;border-left:4px solid var(--c);padding-left:10px;color:var(--c)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.card,details{background:var(--panel);border:1px solid #3a0a14;border-left:4px solid var(--c);border-radius:6px;padding:12px 14px}
+.p{--c:var(--v)}.e{--c:var(--y)}
+.m{--c:var(--y);border-left-color:var(--v);border-right:4px solid var(--y)}
+details{margin-bottom:8px}
+summary{cursor:pointer;color:var(--c);font-weight:700}
+details p{margin:8px 0 0;color:var(--text)}
+.card h3{margin:0 0 6px;color:var(--c);font-size:1rem}
+.card p{margin:4px 0;color:var(--text)}
+.tag{display:inline-block;font-size:.72rem;border:1px solid var(--red);color:var(--red);border-radius:3px;padding:0 6px;margin-bottom:6px}
+.card ul{margin:6px 0 0;padding-left:18px;color:var(--dim)}
+.card li b{color:var(--c)}
+.k{color:var(--dim)}
+.box{background:var(--panel);border:1px dashed var(--y);border-radius:6px;padding:12px 14px;color:var(--y);overflow-x:auto}
+.box div{white-space:pre-wrap}
+input{font:inherit;width:100%;background:var(--panel);color:var(--text);border:1px solid var(--red);border-radius:4px;padding:10px;margin-bottom:12px}
+pre{margin:8px 0;background:#000;border:1px solid #3a0a14;border-radius:4px;padding:10px;overflow-x:auto;color:var(--c);font-size:.82rem;line-height:1.45}
+.reto{border:1px dashed var(--red);color:var(--red);border-radius:4px;padding:8px 10px;margin-top:8px}
+.imag{background:var(--panel);border:2px solid var(--red);border-radius:6px;padding:14px;margin-bottom:16px;box-shadow:0 0 18px rgba(255,31,61,.3)}
+.imag p{margin:0 0 10px;color:var(--text)}.imag #rr{color:var(--y);font-size:1.05rem;min-height:3em}
+.imag button{font:inherit;background:var(--red);color:#000;border:0;border-radius:4px;padding:10px 16px;cursor:pointer;min-height:42px;font-weight:700}
+.back{display:inline-block;color:var(--red);border:1px solid var(--red);border-radius:4px;padding:8px 12px;text-decoration:none;background:var(--panel);margin-bottom:6px}.back:hover{background:var(--red);color:#000}
+.sec[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){#m{display:none}}
+</style>
+</head>
+<body>
+<canvas id="m" aria-hidden="true"></canvas>
+<div class="wrap"><a class="back" href="MAKER_HUB_ Programación y Electrónica.html" target="_blank" rel="noopener">← VOLVER AL INICIO</a>
+<h1>&gt; ELECTRÓNICA_</h1>
+<p class="sub" style="color:var(--y)">Rutas, fórmulas, tutoriales, proyectos y componentes con sus pines.</p>
+<nav id="nav"></nav>
+<div id="out"></div>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const PROG=[
+["Lógica y pensamiento computacional","Aprendé a descomponer problemas: variables, condiciones, bucles. Practicá con pseudocódigo y diagramas de flujo antes de tocar un lenguaje."],
+["Primer lenguaje: Python","Tipos de datos, if/else, for/while, funciones, listas y diccionarios, leer/escribir archivos. Resolvé 1 ejercicio por día."],
+["Terminal, Git y GitHub","Comandos básicos (cd, ls, mkdir), commit, branch, merge y pull request. Subí cada proyecto a tu perfil."],
+["Estructuras de datos y algoritmos","Pilas, colas, árboles, hash, búsqueda y ordenamiento, complejidad Big-O. Base de toda entrevista técnica."],
+["Web: HTML, CSS y JavaScript","Estructura, estilos, DOM, eventos, fetch a APIs. Después un framework (React) y un backend (Node o Flask)."],
+["Bases de datos y SQL","SELECT, JOIN, INSERT, UPDATE, normalización. Probá SQLite primero y luego PostgreSQL."],
+["C/C++ para microcontroladores","Punteros, memoria, tipos de ancho fijo, interrupciones, registros. Es el puente entre el software y el hardware."],
+["Portafolio y práctica real","3 a 5 proyectos terminados, README claro, tests, despliegue. Contribuí a proyectos open source."]];
+const ELEC=[
+["Seguridad primero","Nunca trabajes con red eléctrica (110/220 V) sin formación y sin desconectar. Usá multímetro para confirmar ausencia de tensión, calzado aislante y herramientas aisladas. Empezá con baterías y 5 V."],
+["Magnitudes y Ley de Ohm","Tensión (V), corriente (A), resistencia (Ω), potencia (W). Dominá serie y paralelo, y los divisores de tensión."],
+["Instrumentos","Multímetro (tensión, corriente, continuidad), protoboard, fuente regulable, osciloscopio y soldador de 30-60 W con estaño 60/40."],
+["Componentes pasivos","Resistores, capacitores, inductores, potenciómetros. Aprendé el código de colores y los valores comerciales (series E12/E24)."],
+["Semiconductores","Diodos, LED, Zener, transistores BJT y MOSFET como interruptor y amplificador. Leé siempre la hoja de datos (datasheet)."],
+["Circuitos básicos","Fuente lineal (transformador, puente rectificador, filtro, regulador), filtros RC, amplificador con operacional, oscilador con 555."],
+["Electrónica digital y microcontroladores","Compuertas, flip-flops, contadores. Luego Arduino/ESP32: GPIO, ADC, PWM, I2C, SPI, UART."],
+["Soldadura, PCB y electricidad","Soldadura limpia, diseño de placas en KiCad, instalaciones eléctricas básicas bajo la normativa de tu país, protecciones (térmica, diferencial, puesta a tierra)."]];
+const FORM=["Ley de Ohm: V = I × R    Potencia: P = V × I = I²R",
+"Serie: Rt = R1+R2+…    Paralelo: Rt = 1 / (1/R1+1/R2+…)",
+"Divisor de tensión: Vout = Vin × R2 / (R1+R2)",
+"Resistencia de LED: R = (Vcc − Vf) / I   (ej: (5−2)/0,015 = 200 Ω)",
+"Constante RC: τ = R×C (carga al 63 % en 1τ, ~99 % en 5τ)",
+"555 astable: f ≈ 1,44 / ((R1+2·R2)·C)    LM317: Vout = 1,25×(1+R2/R1)",
+"Código de colores: 0 negro · 1 marrón · 2 rojo · 3 naranja · 4 amarillo · 5 verde · 6 azul · 7 violeta · 8 gris · 9 blanco · dorado ±5 % · plata ±10 %"];
+// [tipo, nombre, uso, pines|..., datos]
+const COMP=[
+["e","Resistor","Limita corriente y arma divisores.","Sin polaridad (2 terminales)","Potencia común 1/4 W. Tolerancia 1-5 %."],
+["e","Capacitor","Filtrado, acople, temporización.","Electrolítico: pata larga (+), franja en el cuerpo (−)|Cerámico: sin polaridad (104 = 100 nF)","Nunca superes la tensión nominal ni inviertas polaridad."],
+["e","Diodo 1N4007","Rectificación y protección contra inversión/flyback.","Cátodo = lado de la franja|Ánodo = lado opuesto","1 A, 1000 V inversos. Caída ~0,7 V."],
+["e","LED","Indicador luminoso.","Ánodo (+) pata larga|Cátodo (−) pata corta, lado plano","Vf: rojo ~2 V, verde ~2,2 V, azul/blanco ~3 V. 10-20 mA con resistor SIEMPRE."],
+["e","Transistor NPN BC547 / 2N2222","Interruptor o amplificador de corriente.","BC547 (TO-92, cara plana al frente): C · B · E|2N2222 (TO-92): E · B · C — confirmá en el datasheet","BC547 hasta 100 mA; 2N2222 hasta 800 mA. Base con resistor 1-10 kΩ."],
+["e","MOSFET IRLZ44N","Conmutar cargas grandes (motores, tiras LED) desde 5 V.","TO-220 de frente: G (Gate) · D (Drain) · S (Source)","Nivel lógico (abre con 5 V). 47 A, 55 V. Resistor de 10 kΩ de Gate a GND."],
+["e","Regulador 7805","Fuente fija de 5 V.","TO-220 de frente: 1 IN · 2 GND · 3 OUT","Entrada 7-25 V, salida 5 V a 1 A. Capacitores 0,33 µF a la entrada y 0,1 µF a la salida. Disipa calor."],
+["e","LM317","Regulador ajustable 1,25-37 V.","TO-220 de frente: 1 ADJ · 2 OUT · 3 IN","Vout = 1,25×(1+R2/R1). 1,5 A con disipador."],
+["e","Timer 555","Temporizador, oscilador, PWM.","DIP-8: 1 GND · 2 TRIG · 3 OUT · 4 RESET · 5 CTRL · 6 THR · 7 DIS · 8 VCC","Alimentación 4,5-16 V. Salida hasta 200 mA."],
+["e","Operacional LM358","Amplificar y comparar señales (doble).","DIP-8: 1 OUT A · 2 IN− A · 3 IN+ A · 4 GND · 5 IN+ B · 6 IN− B · 7 OUT B · 8 V+","Alimentación simple 3-32 V. Salida no llega al riel."],
+["e","Registro 74HC595","Ampliar salidas digitales (8 por chip).","DIP-16: 15,1-7 QA-QH · 8 GND · 9 QH' · 10 SRCLR · 11 SRCLK · 12 RCLK · 13 OE · 14 SER · 16 VCC","Con 3 pines del micro controlás 8 salidas. Se pueden encadenar."],
+["e","Módulo relé 5 V","Conmutar cargas de alta tensión con un micro.","Lado control: VCC · GND · IN|Lado potencia: COM · NO · NC","Muchos módulos se activan con IN en LOW. Aislá siempre la parte de red."],
+["e","Servo SG90","Posicionar un ángulo (0-180°).","Marrón GND · Rojo 5 V · Naranja señal","PWM de 50 Hz: pulso de 1 ms (0°) a 2 ms (180°). Alimentalo aparte si hay jitter."],
+["e","Sensor HC-SR04","Medir distancia por ultrasonido.","VCC (5 V) · TRIG · ECHO · GND","2-400 cm. Distancia (cm) = tiempo ECHO (µs) / 58. ECHO es 5 V: divisor para placas de 3,3 V."],
+["e","Sensor DHT11","Temperatura y humedad.","VCC · DATA · (NC) · GND — el módulo de 3 pines: VCC · DATA · GND","0-50 °C ±2 °C; 20-80 % HR ±5 %. Resistor pull-up 10 kΩ en DATA. Leé cada ≥1 s."],
+["e","L298N (driver de motores)","Controlar 2 motores DC (sentido y velocidad).","ENA/ENB (PWM) · IN1-IN4 (sentido) · OUT1-OUT4 (motores) · 12V · GND · 5V","2 A por canal. Caída ~2 V. Para más eficiencia usá TB6612."],
+["p","Arduino Uno (ATmega328P)","Placa de aprendizaje con 5 V lógicos.","Digitales D0-D13 · PWM en 3,5,6,9,10,11 · Analógicos A0-A5 (ADC 10 bits)|UART: D0 RX, D1 TX · I2C: A4 SDA, A5 SCL · SPI: D10 SS, D11 MOSI, D12 MISO, D13 SCK|Interrupciones: D2, D3 · Alimentación: 5V, 3V3, GND, VIN","16 MHz, 32 KB flash, 2 KB SRAM. 20 mA por pin recomendados (40 máx), 200 mA en total."],
+["p","ESP32 DevKit","Micro con Wi-Fi y Bluetooth para IoT.","Lógica de 3,3 V (NO tolera 5 V)|I2C por defecto: GPIO21 SDA, GPIO22 SCL|GPIO34-39: solo entrada|ADC de 12 bits; ADC2 no funciona con Wi-Fi activo","Doble núcleo hasta 240 MHz. Programable con Arduino IDE, MicroPython o ESP-IDF."],
+["p","Pantalla LCD 16×2 I2C","Mostrar texto (2 líneas de 16 caracteres).","GND · VCC (5 V) · SDA · SCL","Dirección I2C habitual 0x27 o 0x3F (usá un escáner I2C). Ajustá el contraste con el trimmer."]];
+const PROY=[
+["p","Básico","Calculadora de consola","Python","Operaciones, validación de entradas y manejo de errores."],
+["p","Básico","Lista de tareas web","HTML, CSS, JS","CRUD con DOM y guardado en el navegador."],
+["p","Intermedio","Bot de Telegram o Discord","Python, API","Responde comandos y consulta el clima o criptomonedas."],
+["p","Intermedio","API REST con base de datos","Flask/Node, SQLite","Endpoints, autenticación y documentación."],
+["p","Avanzado","Dashboard en tiempo real","JS, WebSocket","Gráficos en vivo de datos de sensores."],
+["e","Básico","LED parpadeante con 555","555, R, C, LED","Entendés el astable y calculás la frecuencia."],
+["e","Básico","Detector de oscuridad","LDR, BC547, LED","Luz automática con divisor de tensión y transistor."],
+["e","Intermedio","Fuente regulable 1,25-30 V","Transformador, puente, LM317","Rectificación, filtrado y regulación."],
+["e","Intermedio","Amplificador de audio","LM386, capacitores, parlante","Ganancia y acople de señal."],
+["m","Básico","Semáforo con Arduino","Arduino, 3 LED, resistores","Temporización con millis() sin bloquear."],
+["m","Intermedio","Estación meteorológica","ESP32, DHT11, LCD I2C","Muestra datos y los sirve por una página web."],
+["m","Intermedio","Radar de distancia / sensor de estacionamiento","Arduino, HC-SR04, buzzer","Alarma que acelera al acercarse un obstáculo."],
+["m","Intermedio","Riego automático","Sensor de humedad, relé, bomba","Control por umbral con histéresis."],
+["m","Avanzado","Robot seguidor de línea","Arduino, L298N, sensores IR","Control PID de motores."],
+["m","Avanzado","Domótica por Wi-Fi","ESP32, módulos relé, MQTT","Controlá luces desde el celular con aislación de red."]];
+const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+// [tipo, título, intro, código/esquema, reto]
+const TUT=[
+["p","Python: tu primer programa","Pedí datos, guardalos en una variable y respondé. Es la base de cualquier bot o asistente.",`nombre = input("¿Cómo te llamás? ")
+print(f"Hola {nombre}, hoy vas a crear algo nuevo")`,"¿Y si lo convertís en un generador de frases locas, un cuestionario o un personaje de un juego de texto?"],
+["p","Python: bucles y decisiones","Un juego completo en pocas líneas: while repite, if decide.",`import random
+secreto = random.randint(1, 20)
+intentos = 0
+while True:
+    n = int(input("Adiviná (1-20): "))
+    intentos += 1
+    if n == secreto:
+        print(f"¡Lo lograste en {intentos} intentos!")
+        break
+    print("Más alto" if n < secreto else "Más bajo")`,"¿Y si agregás niveles, puntajes, o lo conectás a un Arduino que prenda un LED al ganar?"],
+["p","Python: funciones y listas","Dividí el problema en piezas reutilizables.",`tareas = []
+def agregar(t):
+    tareas.append(t)
+def mostrar():
+    for i, t in enumerate(tareas, 1):
+        print(i, "-", t)
+agregar("Aprender un lenguaje")
+agregar("Armar mi primer circuito")
+mostrar()`,"¿Y si guardás las tareas en un archivo, las ordenás por prioridad o las mostrás en una pantalla LCD?"],
+["p","JavaScript: crear y reaccionar","Creá un elemento desde código y respondé a un clic. Pegalo en la consola del navegador (F12).",`const b = document.createElement("button");
+b.textContent = "Magia";
+b.onclick = () => {
+  document.body.style.background =
+    "hsl(" + Math.random() * 360 + " 80% 50%)";
+};
+document.body.append(b);`,"¿Y si dibujás arte generativo, un piano con el teclado, o un juego de reflejos?"],
+["p","JavaScript: hablar con una API","Pedí datos reales de internet con fetch. Cambiá TU_LAT y TU_LON por coordenadas.",`fetch("https://api.open-meteo.com/v1/forecast?latitude=TU_LAT&longitude=TU_LON&current_weather=true")
+  .then(r => r.json())
+  .then(d => console.log("Temperatura:", d.current_weather.temperature));`,"¿Y si mostrás el clima con colores, o un ESP32 que lo consulte y mueva un servo como aguja?"],
+["e","Arduino: Blink con LED","El 'Hola mundo' del hardware. Esquema: D13 ─ resistor 220 Ω ─ LED (ánodo→cátodo) ─ GND.",`void setup() {
+  pinMode(13, OUTPUT);
+}
+void loop() {
+  digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500);
+}`,"¿Y si el ritmo cambia con un potenciómetro, o enviás mensajes en código Morse?"],
+["e","Arduino: botón + LED","Esquema: botón entre D2 y GND (pull-up interno), LED con resistor en D13.",`void setup() {
+  pinMode(2, INPUT_PULLUP);
+  pinMode(13, OUTPUT);
+}
+void loop() {
+  bool apretado = (digitalRead(2) == LOW);
+  digitalWrite(13, apretado);
+}`,"¿Y si armás una caja fuerte con combinación de botones, o un juego de reflejos para dos jugadores?"],
+["e","Arduino: medir distancia (HC-SR04)","Esquema: VCC→5V, GND→GND, TRIG→D9, ECHO→D10.",`const int TRIG = 9, ECHO = 10;
+void setup() {
+  Serial.begin(9600);
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+}
+void loop() {
+  digitalWrite(TRIG, LOW);  delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH); delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+  long t = pulseIn(ECHO, HIGH);
+  Serial.println(t / 58.0);  // centímetros
+  delay(200);
+}`,"¿Y si hacés un theremin que cambie el tono según tu mano, un radar o un bastón para detectar obstáculos?"],
+["e","Arduino: servo que barre","Esquema: marrón→GND, rojo→5V, naranja→D9.",`#include <Servo.h>
+Servo s;
+void setup() { s.attach(9); }
+void loop() {
+  for (int a = 0; a <= 180; a += 2) { s.write(a); delay(15); }
+  for (int a = 180; a >= 0; a -= 2) { s.write(a); delay(15); }
+}`,"¿Y si el servo apunta hacia la luz, dispensa comida o mueve el brazo de un robot?"],
+["e","Circuito: transistor como interruptor","Un pin de 5 V maneja una carga mayor. No necesita código: probalo con una pila y un pulsador.",`+5V ───[ CARGA: LED+220Ω / motor ]─── Colector (C)
+Pin ───[ 1 kΩ ]─── Base (B)
+Emisor (E) ─── GND
+(motor: poné un diodo 1N4007 en paralelo a la carga,
+ cátodo hacia +5V, para absorber picos)`,"¿Y si con un LDR en la base armás una luz que se enciende sola al oscurecer?"],
+["p","ESP32 con MicroPython","Mismo concepto, otra plataforma con Wi-Fi. En muchas placas el LED integrado está en el GPIO2.",`from machine import Pin
+import time
+led = Pin(2, Pin.OUT)
+while True:
+    led.value(not led.value())
+    time.sleep(0.5)`,"¿Y si el LED responde a una página web, a un mensaje o a un sensor en otra habitación?"]];
+const SENS=["un sensor de luz (LDR)","un sensor de distancia","un botón","un sensor de humedad","un micrófono","la hora","la temperatura","un joystick"],
+OUTS=["un servo","un LED que cambia de color","un buzzer con melodías","una pantalla LCD","un motor","un relé","una página web","un mensaje al celular"],
+TEMA=["una mascota robot","una planta que se cuida sola","un juego","una alarma para tu cuarto","un instrumento musical","una caja fuerte secreta","un reloj raro","un asistente para estudiar"];
+const pick=a=>a[Math.random()*a.length|0];
+const reto=()=>`Construí ${pick(TEMA)} que use ${pick(SENS)} y responda con ${pick(OUTS)}.`;
+const T=[["elec","RUTA"],["tut","TUTORIALES"],["proy","PROYECTOS"],["comp","COMPONENTES"]];
+TUT.splice(0,TUT.length,...TUT.filter(t=>t[0]=="e"));PROY.splice(0,PROY.length,...PROY.filter(p=>p[0]!="p"));
+let tab="elec";
+const steps=(a,c)=>a.map((s,i)=>`<details class="${c}"${i==0?" open":""}><summary>${String(i+1).padStart(2,"0")} · ${s[0]}</summary><p>${s[1]}</p></details>`).join("");
+const card=(c,tag,t,body)=>`<div class="card ${c}"><span class="tag">${tag}</span><h3>${t}</h3>${body}</div>`;
+function view(){
+ const q=($("#q")?.value||"").toLowerCase();
+ let h="";
+ if(tab=="prog")h=`<h2 class="p">Ruta paso a paso para ser programador</h2>${steps(PROG,"p")}<h2 class="p">Recursos recomendados</h2><div class="card p"><p>Práctica: Exercism, freeCodeCamp, Codewars, The Odin Project. Documentación: MDN Web Docs y docs.python.org. Cursos: CS50 (Harvard, gratis).</p></div>`;
+ if(tab=="elec")h=`<h2 class="e">Ruta paso a paso para ser técnico electrónico</h2>${steps(ELEC,"e")}<h2 class="e">Fórmulas y datos clave</h2><div class="box">${FORM.map(f=>`<div>${f}</div>`).join("")}</div>`;
+ if(tab=="proy")h=`<h2 class="e">Proyectos para animarte a crear</h2><div class="grid">${PROY.map(p=>card(p[0],p[1]+" · "+({p:"Software",e:"Electrónica",m:"Mixto"})[p[0]],p[2],`<p><span class="k">Usa:</span> ${p[3]}</p><p>${p[4]}</p>`)).join("")}</div>`;
+ if(tab=="tut")h=`<h2 class="e">Tutoriales con código: semillas para tu imaginación</h2><div class="imag"><p>El código de abajo es solo el punto de partida. Copialo, rompelo, cambialo y hacelo tuyo: las mejores ideas nacen de mezclar cosas que nadie mezcló.</p><div id="rr">${reto()}</div><br><button id="rnd" type="button">🎲 Dame otro reto</button></div>${TUT.map((t,i)=>`<details class="${t[0]}"${i==0?" open":""}><summary>${String(i+1).padStart(2,"0")} · ${t[1]}</summary><p>${t[2]}</p><pre><code>${esc(t[3])}</code></pre><div class="reto">✦ ${t[4]}</div></details>`).join("")}`;
+ if(tab=="comp"){
+  const L=COMP.filter(c=>(c[1]+c[2]+c[3]).toLowerCase().includes(q));
+  h=`<h2 class="e">Componentes: uso, pines y datos</h2><input id="q" placeholder="Buscar (ej: 555, servo, I2C)..." value="${q}" aria-label="Buscar componente"><div class="grid">${L.map(c=>card(c[0],c[0]=="p"?"Programable":"Electrónica",c[1],`<p>${c[2]}</p><ul>${c[3].split("|").map(x=>`<li><b>Pines:</b> ${x}</li>`).join("")}</ul><p class="k">${c[4]}</p>`)).join("")||"<p>Sin resultados.</p>"}</div>`;
+ }
+ $("#out").innerHTML=h;
+ const i=$("#q");if(i){i.addEventListener("input",()=>{const p=i.selectionStart;view();const n=$("#q");n.focus();n.setSelectionRange(p,p)})}
+ const r=$("#rnd");if(r)r.onclick=()=>{$("#rr").textContent=reto()};
+ document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t==tab));
+}
+$("#nav").innerHTML=T.map(t=>`<button type="button" data-t="${t[0]}">${t[1]}</button>`).join("");
+$("#nav").onclick=e=>{const t=e.target.dataset.t;if(t){tab=t;view()}};
+view();
+// Matrix
+const c=$("#m"),x=c.getContext("2d"),ch="アイウエオカキクケコサシスセソタチツテト0123456789ABCDEF<>/{}[]";let d=[];
+function size(){c.width=innerWidth;c.height=innerHeight;d=Array(Math.floor(c.width/16)).fill(0).map(()=>-Math.random()*60|0)}
+function draw(){x.fillStyle="rgba(5,0,5,.09)";x.fillRect(0,0,c.width,c.height);x.fillStyle="#ff1f3d";x.font="15px monospace";
+ d.forEach((y,i)=>{x.fillText(ch[Math.random()*ch.length|0],i*16,y*16);d[i]=y*16>c.height&&Math.random()>.975?0:y+1})}
+if(!matchMedia("(prefers-reduced-motion:reduce)").matches){size();addEventListener("resize",size);setInterval(draw,50)}
+</script>
+</body>
+</html>

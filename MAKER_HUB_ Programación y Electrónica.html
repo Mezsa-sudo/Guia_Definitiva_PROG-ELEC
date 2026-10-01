@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MAKER_HUB // Programación y Electrónica</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#050005;--red:#ff1f3d;--v:#a855f7;--y:#ffd60a;--text:#f3e8ea}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--text);font-family:ui-monospace,Consolas,Menlo,monospace;display:flex;flex-direction:column}
+#m{position:fixed;inset:0;width:100%;height:100%;opacity:.55;z-index:0}
+main{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;padding:18px 14px;max-width:1100px;width:100%;margin:0 auto}
+h1{margin:0 0 4px;text-align:center;color:var(--red);font-size:clamp(1.5rem,6vw,3rem);text-shadow:0 0 20px var(--red);letter-spacing:.05em}
+p.s{text-align:center;color:#d8a0a8;margin:0 0 22px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,3vw,28px)}
+.big{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;text-decoration:none;min-height:min(58vh,460px);padding:14px;border-radius:10px;background:rgba(5,0,5,.82);border:3px solid var(--c);color:var(--c);box-shadow:0 0 26px var(--g);transition:.2s}
+.big:hover,.big:focus-visible{background:var(--c);color:#050005;transform:translateY(-4px);outline:none}
+.big .i{font-size:clamp(2.2rem,9vw,5rem);line-height:1;margin-bottom:10px}
+.big b{font-size:clamp(1rem,4.2vw,2.1rem);letter-spacing:.04em}
+.big span{margin-top:10px;font-size:clamp(.7rem,2.4vw,.95rem)}
+.p{--c:var(--v);--g:rgba(168,85,247,.5)}.e{--c:var(--y);--g:rgba(255,214,10,.45)}
+@media (prefers-reduced-motion:reduce){#m{display:none}.big{transition:none}}
+</style></head><body>
+<canvas id="m" aria-hidden="true"></canvas>
+<main>
+<h1>&gt; MAKER_HUB_</h1>
+<p class="s">Elegí tu camino. Se abre en una pestaña nueva.</p>
+<div class="row">
+<a class="big p" href="Programación __ Guía Maker.html" target="_blank" rel="noopener"><div class="i">&lt;/&gt;</div><b>PROGRAMACIÓN</b><span>Rutas, código, proyectos y plataformas</span></a>
+<a class="big e" href="Electrónica __ Guía Maker.html" target="_blank" rel="noopener"><div class="i">⚡</div><b>ELECTRÓNICA</b><span>Circuitos, componentes, pines y proyectos</span></a>
+</div></main>
+<script>
+const c=document.getElementById("m"),x=c.getContext("2d"),ch="アイウエオカキクケコサシスセソタチツテト0123456789ABCDEF<>/{}[]";let d=[];
+function size(){c.width=innerWidth;c.height=innerHeight;d=Array(Math.floor(c.width/16)).fill(0).map(()=>-Math.random()*60|0)}
+function draw(){x.fillStyle="rgba(5,0,5,.09)";x.fillRect(0,0,c.width,c.height);x.fillStyle="#ff1f3d";x.font="15px monospace";
+ d.forEach((y,i)=>{x.fillText(ch[Math.random()*ch.length|0],i*16,y*16);d[i]=y*16>c.height&&Math.random()>.975?0:y+1})}
+if(!matchMedia("(prefers-reduced-motion:reduce)").matches){size();addEventListener("resize",size);setInterval(draw,50)}
+</script></body></html>
